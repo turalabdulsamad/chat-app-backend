@@ -6,7 +6,9 @@ import cors from "cors";
 
 import appRouter from "./app/routes/App.routes"
 import createWebSocketServer from './app/routes/WS.routes';
+import dbMigrator from './app/database/migrator';
 
+dbMigrator()
 
 const app = express();
 const server = createServer(app)
