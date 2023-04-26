@@ -3,22 +3,35 @@ import express from 'express';
 import { createServer } from "http";
 import bodyParser from 'body-parser';
 import cors from "cors";
+import WebSocket, { WebSocketServer } from 'ws';
 
 import appRouter from "./app/routes/App.routes"
-import createWebSocketServer from './app/routes/WS.routes';
 import dbMigrator from './app/database/migrator';
 
 dbMigrator()
 
 const app = express();
-const server = createServer(app)
+export const server = createServer(app)
 
 const port: number = 3001;
+
+const wss = new WebSocket.Server({ port: 3002 });
+wss.on('connection', function connection(ws) {
+    ws.send("Welcome New Client!")
+
+    ws.on('message', function incoming(message) {
+        console.log("received: %s", message)
+        wss.clients.forEach(function each(client) {
+            if (client !== ws && client.readyState === WebSocket.OPEN) {
+                client.send(message);
+            }
+        })
+    });
+});
 
 app.use(cors());
 app.use(bodyParser.json());
 app.use("/", appRouter);
-app.use(createWebSocketServer(server));
 
 app.listen(port, () => {
     console.log(`TypeScript with Express
