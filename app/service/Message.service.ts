@@ -26,4 +26,15 @@ const getMessagesByUsername = async (username: String) => {
     return messages
 }
 
-export { createMessage, getMessagesByUsername }
+const getDirectMessages = async (from: String, to: String) => {
+    const messages = await Message.findAll({
+        where: {
+            "from": from,
+            "to": to,
+        }
+    })
+
+    return messages
+}
+
+export { createMessage, getMessagesByUsername, getDirectMessages }

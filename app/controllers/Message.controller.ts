@@ -9,4 +9,12 @@ const getMessagesByUsername = async (req: Request, res: Response) => {
     return res.status(200).json(messages)
 }
 
-export default getMessagesByUsername;
+const getDirectMessages = async (req: Request, res: Response) => {
+    const { from, to } = req.body;
+
+    const messages = await messageService.getDirectMessages(from, to);
+
+    return res.status(200).json(messages)
+}
+
+export {getMessagesByUsername,getDirectMessages};
