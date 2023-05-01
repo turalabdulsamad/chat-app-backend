@@ -1,6 +1,6 @@
 import express from "express"
 import { createUser, getAllUsers, getUser } from "../controllers/User.controller";
-import {getMessagesByUsername,getDirectMessages} from "../controllers/Message.controller";
+import { getLatestMessageByUsername, getDirectMessages, sendMessage } from "../controllers/Message.controller";
 
 const router = express.Router();
 
@@ -11,7 +11,8 @@ router.get('/', (req, res) => {
 router.get('/users/:username', getUser);
 router.get('/users', getAllUsers)
 router.post('/users', createUser);
-router.get('/messages/:username', getMessagesByUsername);
-router.get('/messages',getDirectMessages);
+router.get('/messages/:username', getLatestMessageByUsername);
+router.post('/messages', getDirectMessages);
+router.post('/send-message', sendMessage)
 
 export default router;

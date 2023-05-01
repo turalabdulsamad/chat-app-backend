@@ -22,11 +22,10 @@ const createUser = async (req: Request, res: Response) => {
     const message = `${username} joined Hatuna`
 
     ws.addEventListener("open", (w) => {
-        console.log("salam")
         ws.send(message)
     })
 
-    messageService.createMessage(message, username)
+    messageService.createJoinMessage(message, username)
 
     const newUser = User.create({ username })
     res.status(201).json(newUser)
