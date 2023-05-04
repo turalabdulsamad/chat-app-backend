@@ -9,10 +9,10 @@ const getLatestMessageByUsername = async (req: Request, res: Response) => {
 
     const messages = await Promise.all(users.map(async (user) => {
 
-        let s = await messageService.getLatestMessagesByUsername(username,
+        let message = await messageService.getLatestMessagesByUsername(username,
             user.dataValues.username)
 
-        return s
+        return message
     }))
 
     return res.status(200).json(messages)
@@ -27,9 +27,8 @@ const getDirectMessages = async (req: Request, res: Response) => {
 }
 
 const sendMessage = async (req: Request, res: Response) => {
-    const { from, to, message } = req.body
-    messageService.sendMessage(from, to, message)
+    const { me, to, message } = req.body
+    messageService.sendMessage(me, to, message)
 }
-
 
 export { getLatestMessageByUsername, getDirectMessages, sendMessage };

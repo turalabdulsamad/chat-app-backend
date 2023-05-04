@@ -1,6 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
 import sequelize from 'sequelize';
-import WebSocket from 'ws';
 
 import Message from '../models/Message.model';
 import *  as userService from '../service/User.service';
@@ -78,13 +77,6 @@ const getDirectMessages = async (from: String, to: String) => {
 }
 
 const sendMessage = (from: String, to: String, message: String) => {
-
-    const ws = new WebSocket('ws://localhost:3002');
-
-    ws.addEventListener("open", (w) => {
-        ws.send(message)
-    })
-
     createMessage(message, from, to)
     updateLatestMessage(message, from, to)
 }
